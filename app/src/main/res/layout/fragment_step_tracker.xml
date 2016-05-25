@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.lenours.sensortracker.StepTrackerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|top"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Step Tracker"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+            android:textSize="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dailyStepView"
+            android:layout_gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:id="@+id/man"
+            android:src="@drawable/man"
+            android:layout_gravity="center_horizontal" />
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:textAlignment="center"
+            android:indeterminate="false" />
+
+    </LinearLayout>
+</FrameLayout>

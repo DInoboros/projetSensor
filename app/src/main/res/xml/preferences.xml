@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Graph">
+        <EditTextPreference
+            android:defaultValue="30000"
+            android:key="interval"
+            android:title="Interval (Seconds)" />
+        <fr.lenours.sensortracker.ConfirmationDialog
+            android:key="removeSteps"
+            android:summary="this action will remove the record"
+            android:title="delete all step recording" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Map">
+        <fr.lenours.sensortracker.ConfirmationDialog
+            android:key="removeRoute"
+            android:summary="This action will delete map route"
+            android:title="Delete route" />
+        <fr.lenours.sensortracker.ConfirmationDialog
+            android:key="removeMarkers"
+            android:summary="this action will delete all markers on the map"
+            android:title="Delete markers" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Tracker">
+        <EditTextPreference
+            android:key="stepObjective"
+            android:summary="Change your daily step objective"
+            android:title="Step daily objective" />
+    </PreferenceCategory>
+</PreferenceScreen>
