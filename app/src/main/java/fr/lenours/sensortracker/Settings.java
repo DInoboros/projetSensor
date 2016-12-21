@@ -5,6 +5,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 
 /**
+ * Interface Paramètres
  * Created by Clemsbrowning on 11/05/2016.
  */
 public class Settings extends PreferenceActivity {

@@ -30,7 +30,6 @@ public final class ScalarKalmanFilter {
         // time update - prediction
         mX0 = mF * mState;
         mP0 = mF * mCovariance * mF + mQ;
-
         // measurement update - correction
         double k = mH * mP0 / (mH * mP0 * mH + mR);
         mCovariance = (1 - k * mH) * mP0;

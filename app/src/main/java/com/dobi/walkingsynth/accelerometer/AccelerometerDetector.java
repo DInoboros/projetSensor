@@ -53,9 +53,10 @@ public class AccelerometerDetector implements SensorEventListener {
 
     public void startDetector() {
         // just starts just the accelerometer. It doesn't update the UI.
-        if (!mSensorManager.registerListener(this, mAccel, CONFIG_SENSOR)) {
+        //mSensorManager.unregisterListener(this, mAccel);
+        mSensorManager.registerListener(this, mAccel, CONFIG_SENSOR);
             Log.d(TAG, "The sensor is not supported and unsuccessfully enabled.");
-        }
+
     }
 
     public void stopDetector() {

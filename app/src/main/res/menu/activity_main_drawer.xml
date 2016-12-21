@@ -2,7 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="Settings"
+    <item android:title="Paramètres"
         android:id="@+id/settings"/>
+    <item android:title="Légénde de la carte"
+        android:id="@+id/mapLegend" />
+    <item android:title="Se connecter à dropbox"
+        android:id="@+id/dbConnect" />
+    <item android:title="Envoyer ses données sur Dropbox"
+        android:id="@+id/dbSend" />
+    <item android:title="Recuperer ses données"
+        android:id="@+id/dbReceive" />
 
 </menu>

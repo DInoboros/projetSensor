@@ -29,7 +29,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mark this place"
+            android:text="Marquer l&apos;endroit"
             android:id="@+id/bMark"
             android:layout_alignParentTop="true" />
 
@@ -38,12 +38,13 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/osmMap"
             android:layout_alignEnd="@+id/bCenter"
-            android:layout_toEndOf="@+id/bMark">
+            android:layout_toEndOf="@+id/bMark"
+            android:id="@+id/gridLayout">
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Start Route recording"
+                android:text="Enregistrer le tracé"
                 android:id="@+id/routeRecording"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
@@ -51,6 +52,16 @@
                 android:layout_above="@+id/osmMap" />
 
         </GridLayout>
+
+        <TextView
+            android:layout_width="350px"
+            android:layout_height="80px"
+            android:id="@+id/tCurrentLoc"
+            android:textSize="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/gridLayout"
+            android:visibility="visible"
+            android:text="frfr" />
 
 
     </RelativeLayout>

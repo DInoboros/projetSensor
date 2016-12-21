@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 
-class StepService extends Service {
+public class StepService extends Service {
     StepAlarm alarm = new StepAlarm();
 
     public StepAlarm getAlarm() {

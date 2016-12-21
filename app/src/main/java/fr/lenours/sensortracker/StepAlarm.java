@@ -15,9 +15,9 @@ import android.util.Log;
 
 public class StepAlarm extends BroadcastReceiver {
 
+    public static String TAG = "StepAlarm";
     PowerManager pm;
     PowerManager.WakeLock wl;
-    OnStepAlarmRingListener alarmListener;
 
 
     @Override
@@ -26,10 +26,27 @@ public class StepAlarm extends BroadcastReceiver {
         pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         wl.acquire();
-        alarmListener.onStepAlarmRing();
-        Log.i("StepAlarm", "Toasted !");
+        Log.i(TAG, "Toasted ! " + Extra.timeMillisToDate(System.currentTimeMillis()));
+        if (MainActivity.onDestroyCalled) {
+            MainActivity.onDestroyCalled = false;
+            return;
+        }
+
+        updateSteps();
+
         wl.release();
     }
+
+    private void updateSteps() {
+        String[] lastLine = CsvReader.getLastLine(FileData.TOTAL_STEP);
+        if ( lastLine != null  && lastLine[0].equals(Extra.getDateAsString(System.currentTimeMillis()))) {
+            CsvReader.tail(FileData.TOTAL_STEP,1,true);
+        }
+        CsvReader.writeCSV(FileData.TOTAL_STEP,System.currentTimeMillis() + "," + StepData.day_step + "," + StepData.objective_step,true);
+        StepData.dayChanged = true;
+        StepData.day_step = 0;
+    }
+
 
     public void setAlarm(Context context) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -45,7 +62,4 @@ public class StepAlarm extends BroadcastReceiver {
         alarmManager.cancel(sender);
     }
 
-    public void setOnStepAlarmRingListener(OnStepAlarmRingListener listener) {
-        this.alarmListener = listener;
-    }
 }

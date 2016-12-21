@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,42 +7,186 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|top"
+        android:layout_gravity="center"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/dailyStepView"
+            android:layout_width="157dp"
             android:layout_height="wrap_content"
-            android:text="Step Tracker"
-            android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
-            android:textSize="50dp" />
+            android:layout_weight="0.10" />
+
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/stepArcProgress"
+            android:layout_width="175dp"
+            android:layout_height="139dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="0.15"
+            android:background="#EEEEEE"
+            custom:arc_bottom_text="pas"
+            custom:arc_progress="0" />
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/caloriesArcProgress"
+            android:layout_width="175dp"
+            android:layout_height="139dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="0.15"
+            android:background="#EEEEEE"
+            android:visibility="gone"
+            custom:arc_bottom_text="calories" />
+
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/distanceArcProgress"
+            android:layout_width="175dp"
+            android:layout_height="139dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="0.15"
+            android:background="#EEEEEE"
+            android:visibility="gone"
+            custom:arc_bottom_text="mètres" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible">
+
+            <Spinner
+                android:id="@+id/modeSpinner"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:spinnerMode="dropdown"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/daysSelector"
+                android:layout_marginEnd="35dp" />
+
+            <Spinner
+                android:id="@+id/daysSelector"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginEnd="58dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:visibility="visible"
+            android:id="@+id/firstMode">
+
+
+            <Spinner
+                android:id="@+id/daysSpinner"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:spinnerMode="dropdown"
+                android:visibility="visible"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/daysSpinner"
+                android:layout_weight="0.10" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Le :"
+                android:id="@+id/textView"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/daysSpinner" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_weight="0.46"
+            android:id="@+id/secondMode"
+            android:visibility="gone">
+
+            <Spinner
+                android:id="@+id/daysSpinnerOne"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="30dp"
+                android:spinnerMode="dropdown"
+                android:visibility="visible" />
+
+            <Spinner
+                android:id="@+id/daysSpinnerTwo"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:spinnerMode="dropdown"
+                android:visibility="visible"
+                android:layout_below="@+id/daysSpinnerOne"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/bValidMultipleDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="valider"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Du :"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/daysSpinnerOne" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Au :"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="75dp"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/daysSpinnerOne" />
+
+        </RelativeLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/dailyObjectiveText"
+            android:layout_width="158dp"
             android:layout_height="wrap_content"
-            android:id="@+id/dailyStepView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.25"
             android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:id="@+id/man"
-            android:src="@drawable/man"
-            android:layout_gravity="center_horizontal" />
-
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:textAlignment="center"
-            android:indeterminate="false" />
 
     </LinearLayout>
+
 </FrameLayout>
