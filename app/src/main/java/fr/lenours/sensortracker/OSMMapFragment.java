@@ -1,4 +1,4 @@
-package fr.lenours.sensortracker;
+/*package fr.lenours.sensortracker;
 
 import android.Manifest;
 import android.content.Context;
@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * Interface de la carte
- */
+ *//*
 public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListener, LocationListener {
 
     public static final int MARKER = 1;
@@ -155,14 +155,14 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
      * Amméliore la précision du mouvement de la personne
      *
      * @return
-     */
+     *//*
     private boolean hasMoved() {
         return (Math.abs(current_loc.getLongitude() - last_loc.getLongitude()) > 0.00001) && (Math.abs(current_loc.getLatitude() - last_loc.getLatitude()) > 0.00001);
     }
 
     /**
      * Initialise la carte
-     */
+     *//*
     public void initMap() {
         osmMap = (MapView) view.findViewById(R.id.osmMap);
         osmMap.setClickable(true);
@@ -179,7 +179,7 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
 
     /**
      * Supprime la route
-     */
+     *//*
     public void resetRoute() {
         points = new ArrayList<>();
         osmMap.getOverlays().clear();
@@ -190,7 +190,7 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
 
     /**
      * restore la route.
-     */
+     *//*
     public void restoreRoute() {
         resetRoute();
         List<String[]> list = CsvReader.readCSV(FileData.ROUTE_FILE, ",");
@@ -216,7 +216,7 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
      *
      * @param point
      * @param isRestoring Si ce n'est pas une restiration, sauegarde la route
-     */
+     *//*
     public void updateRoute(GeoPoint point, boolean isRestoring) {
         points.add(point);
         pathOverlay.addPoint(point);
@@ -233,7 +233,7 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
     /**
      * @param point
      * @param type  Le type de marqueur
-     */
+     *//*
     public void updateMarker(GeoPoint point, int type) {
         markerInfo = "Vous avez parcouru " + Extra.stepToMeter(StepData.day_step) + "m à pieds";
         Marker tempMarker = new Marker(osmMap);
@@ -344,4 +344,4 @@ public class OSMMapFragment extends Fragment implements OnUserWalkingChangeListe
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-}
+}*/

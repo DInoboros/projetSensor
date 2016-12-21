@@ -56,13 +56,13 @@ import fr.lenours.dropboxapi.DropboxAuthActivity;
 import fr.lenours.dropboxapi.GetDBFile;
 import fr.lenours.dropboxapi.UploadFile;
 
-public class MainActivity extends AppCompatActivity implements OSMMapFragment.OnFragmentInteractionListener, StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static String PACKAGE_NAME;
     private static ConnectivityManager cm;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private OSMMapFragment osmFrag;
+   // private OSMMapFragment osmFrag;
     private boolean firstUse = true;
     private EditText setupText;
     private SharedPreferences sp;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OSMMapFragment.On
         //startService(new Intent(MainActivity.this, StepService.class));
 
         stepGraphFragment2 = new StepGraphFragment2();
-        osmFrag = new OSMMapFragment();
+      //  osmFrag = new OSMMapFragment();
         stepTrackerFragment = new StepTrackerFragment2();
         Object internet = getSystemService(Context.CONNECTIVITY_SERVICE);
         FileData.createAppFolder();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements OSMMapFragment.On
 
     private void setupViewPager(CustomViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(osmFrag, "carte");
+       // adapter.addFragment(osmFrag, "carte");
         adapter.addFragment(stepTrackerFragment /*stepTrackerFragment*/, "accueil");
         adapter.addFragment(stepGraphFragment2,"graphe");
         //   adapter.addFragment(stepGraphFrag, "Graph");
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements OSMMapFragment.On
                 if (sharedPreferences.getBoolean("removeRoute", true)) {
                     FileData.ROUTE_FILE.delete();
                     restartApp();
-                    osmFrag.resetRoute();
+                    //osmFrag.resetRoute();
                 }
                 break;
             case "pas" :
