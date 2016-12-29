@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -111,7 +112,8 @@ public class StepGraphFragment2 extends Fragment {
         mRenderer.setYAxisMax(10000);
         mRenderer.setYAxisMin(0);
 
-        GraphicalView chartView = ChartFactory.getTimeChartView(getActivity(), dataset, mRenderer, "dd/MMM/yyyy");
+        //GraphicalView chartView = ChartFactory.getTimeChartView(getActivity(), dataset, mRenderer, "dd/MMM/yyyy");
+        GraphicalView chartView = ChartFactory.getBarChartView(getActivity(), dataset, mRenderer, BarChart.Type.DEFAULT);
         chartLyt.addView(chartView);
 
     }
