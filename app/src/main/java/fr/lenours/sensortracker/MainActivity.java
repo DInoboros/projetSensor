@@ -56,7 +56,7 @@ import fr.lenours.dropboxapi.DropboxAuthActivity;
 import fr.lenours.dropboxapi.GetDBFile;
 import fr.lenours.dropboxapi.UploadFile;
 
-public class MainActivity extends AppCompatActivity implements StepGraphFragment4.OnFragmentInteractionListener, StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static String PACKAGE_NAME;
     private static ConnectivityManager cm;
@@ -239,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
             case R.id.fileImport:
                 startActivity(new Intent(MainActivity.this, FileImportation.class));
                 break;
+
         }
         return true;
     }
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
     /**
      * Initialise l'api Dropbox
      */
-    private void initDropbox() {
+    public void initDropbox() {
         AppKeyPair appKeyPair = new AppKeyPair(ACCESS_KEY, ACCESS_SECRET);
         AndroidAuthSession session;
 
@@ -307,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
         }
     }
 
-    public void restartApp() {
+    private void restartApp() {
         Extra.openApp(this, "fr.lenours.sensortracker");
         finish();System.exit(0);
     }
