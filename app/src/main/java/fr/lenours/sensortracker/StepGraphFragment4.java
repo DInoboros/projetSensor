@@ -96,9 +96,7 @@ public class StepGraphFragment4 extends Fragment {
         XYSeriesRenderer renderer = new XYSeriesRenderer();
         renderer.setLineWidth(7);
         renderer.setColor(Color.rgb(66, 145, 241));
-        renderer.setDisplayBoundingPoints(true);
         renderer.setPointStyle(PointStyle.SQUARE);
-        renderer.setPointStrokeWidth(8);
 
         XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
         mRenderer.setXLabelsColor(Color.BLACK);
