@@ -28,8 +28,8 @@
     <fr.lenours.sensortracker.CustomViewPager
         android:id="@+id/viewpager"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
     <LinearLayout
         android:id="@+id/chart_container"
