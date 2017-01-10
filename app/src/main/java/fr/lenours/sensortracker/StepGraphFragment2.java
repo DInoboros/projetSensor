@@ -31,6 +31,7 @@ import org.json.JSONException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -39,8 +40,6 @@ import java.util.List;
  */
 public class StepGraphFragment2 extends Fragment {
 
-    private String[] mMonth = new String[]{"Jan", "Feb", "Mar", "Apr", "May",
-            "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     public static String TAG = "StepGraphFragment2";
     private View view;
     private LinearLayout chartLyt;
@@ -84,22 +83,29 @@ public class StepGraphFragment2 extends Fragment {
 
     protected void setupGraph() {
 
-        System.out.println("test ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCIIIIIIIIIIIIIII");
-        int[] x = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-        int[] income = {1000, 1500, 1700, 2500, 2800, 3500, 3000, 3500, 3700, 3800,
-                2500, 4000};
-        int[] expense = {1200, 1400, 1000, 1800, 2600, 3200, 3300, 3400, 3300, 3900,
-                2500, 3500};
-
         // Creating an XYSeries for Income
-        XYSeries incomeSeries = new XYSeries("Income");
+        TimeSeries incomeSeries = new TimeSeries("Courbe");
         // Creating an XYSeries for Expense
-        XYSeries expenseSeries = new XYSeries("Expense");
+        TimeSeries expenseSeries = new TimeSeries("Histo");
+        List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+        Date d;
+        Calendar cal = Calendar.getInstance();
+
+        if (stepsDataSet != null)
+            for (String[] dayStep : stepsDataSet) {
+                try {
+
+                    d = f.parse(dayStep[0]);
+                    cal.setTime(d);
+                    System.out.println(cal.get(Calendar.DAY_OF_MONTH) + "ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI");
+                    incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                    expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
         // Adding data to Income and Expense Series
-        for (int i = 0; i < x.length; i++) {
-            incomeSeries.add(i, income[i]);
-            expenseSeries.add(i, expense[i]);
-        }
 
         // Creating a dataset to hold each series
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -112,8 +118,7 @@ public class StepGraphFragment2 extends Fragment {
         XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
         incomeRenderer.setColor(Color.RED); // color of the graph set to cyan
         incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(2);
-        incomeRenderer.setDisplayChartValues(true);
+        incomeRenderer.setLineWidth(7);
         incomeRenderer.setDisplayChartValues(true); // setting chart value
         // distance
 
@@ -126,12 +131,12 @@ public class StepGraphFragment2 extends Fragment {
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer
-                .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
-        multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Income vs Expense Chart");
-        multiRenderer.setXTitle("Year 2014");
-        multiRenderer.setYTitle("Amount in Dollars");
+       // multiRenderer
+             //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
+        //multiRenderer.setXLabels(0);
+        multiRenderer.setChartTitle("Nombre de pas dans le temp");
+        multiRenderer.setXTitle("2017");
+        multiRenderer.setYTitle("Nombre de pas");
 
 /***
  * Customizing graphs
@@ -139,9 +144,9 @@ public class StepGraphFragment2 extends Fragment {
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(28);
         // setting text size of the axis title
-        multiRenderer.setAxisTitleTextSize(24);
+        multiRenderer.setAxisTitleTextSize(30);
         // setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(24);
+        multiRenderer.setLabelsTextSize(30);
         // setting zoom buttons visiblity
         multiRenderer.setZoomButtonsVisible(false);
         // setting pan enablity which uses graph to move on both axis
@@ -176,37 +181,39 @@ public class StepGraphFragment2 extends Fragment {
         // setting text style
         multiRenderer.setTextTypeface("sans_serif", Typeface.NORMAL);
         // setting no of values to display in y axis
-        multiRenderer.setYLabels(10);
+        //multiRenderer.setYLabels(10);
         // setting y axis max value, Since i'm using static values inside the
         // graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(10000);
+        multiRenderer.setYAxisMax(5000);
+        multiRenderer.setYAxisMin(0);
         // setting used to move the graph on xaxiz to .5 to the right
-        multiRenderer.setXAxisMin(-0.5);
+        //multiRenderer.setXAxisMin(-0.5);
         // setting max values to be display in x axis
-        multiRenderer.setXAxisMax(11);
+        //multiRenderer.setXAxisMax(10);
         // setting bar size or space between two bars
-        multiRenderer.setBarSpacing(0.2);
+        multiRenderer.setBarSpacing(0.5);
         // Setting background color of the graph to transparent
-        multiRenderer.setBackgroundColor(Color.BLUE);
+        multiRenderer.setBackgroundColor(Color.rgb(66, 145, 241));
 
         multiRenderer.setApplyBackgroundColor(true);
 
         // setting the margin size for the graph in the order top, left, bottom,
         // right
         multiRenderer.setMargins(new int[]{30, 30, 30, 30});
+        multiRenderer.setMarginsColor(Color.rgb(66, 145, 241));
 
-        for (int i = 0; i < x.length; i++) {
+       /** for (int i = 0; i < x.length; i++) {
             multiRenderer.addXTextLabel(i, mMonth[i]);
-        }
+        }**/
 
         // Adding incomeRenderer and expenseRenderer to multipleRenderer
         // Note: The order of adding dataseries to dataset and renderers to
         // multipleRenderer
         // should be same
-        multiRenderer.addSeriesRenderer(incomeRenderer);
-        multiRenderer.addSeriesRenderer(expenseRenderer);
 
+        multiRenderer.addSeriesRenderer(expenseRenderer);
+        multiRenderer.addSeriesRenderer(incomeRenderer);
         // this part is used to display graph on the xml
         //LinearLayout chartContainer = (LinearLayout) view.findViewById(R.id.viewpager);
         // remove any views before u paint the chart
@@ -216,19 +223,15 @@ public class StepGraphFragment2 extends Fragment {
         // drawing bar chart
         // mChart = ChartFactory.getBarChartView(MainActivity.this, dataset,
         // multiRenderer, Type.DEFAULT);
-        String[] types = new String[]{LineChart.TYPE, BarChart.TYPE};
+        String[] types = new String[]{ BarChart.TYPE,LineChart.TYPE};
 
         // Creating a combined chart with the chart types specified in types
         // array
         GraphicalView mChart = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
                 multiRenderer, types);
         // adding the view to the linearlayout
-        if (chartLyt == null){
-            System.out.println("T'a fait de la merde gars");
-        }
-        else {
-            chartLyt.addView(mChart);
-        }
+        chartLyt.addView(mChart);
+
 
     }
 
