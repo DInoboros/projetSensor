@@ -348,7 +348,7 @@ public class StepTrackerFragment2 extends Fragment implements OnStepCountChangeL
         return steps / 15;
     }
 
-    public int stepToMeter(int step) {
+    public static int stepToMeter(int step) {
         return (int) (step * 0.8);
     }
 

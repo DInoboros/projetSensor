@@ -84,9 +84,9 @@ public class StepGraphFragment2 extends Fragment {
     protected void setupGraph() {
 
         // Creating an XYSeries for Income
-        TimeSeries incomeSeries = new TimeSeries("Courbe");
+        TimeSeries incomeSeries = new TimeSeries("Nombre de Pas");
         // Creating an XYSeries for Expense
-        TimeSeries expenseSeries = new TimeSeries("Histo");
+        TimeSeries expenseSeries = new TimeSeries("Distance (m)");
         List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
         Date d;
@@ -100,7 +100,7 @@ public class StepGraphFragment2 extends Fragment {
                     cal.setTime(d);
                     System.out.println(cal.get(Calendar.DAY_OF_MONTH) + "ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI");
                     incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
-                    expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                    expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -119,12 +119,13 @@ public class StepGraphFragment2 extends Fragment {
         incomeRenderer.setColor(Color.RED); // color of the graph set to cyan
         incomeRenderer.setFillPoints(true);
         incomeRenderer.setLineWidth(7);
+        incomeRenderer.setChartValuesTextSize(50);
         incomeRenderer.setDisplayChartValues(true); // setting chart value
         // distance
 
         // Creating XYSeriesRenderer to customize expenseSeries
         XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
-        expenseRenderer.setColor(Color.GREEN);
+        expenseRenderer.setColor(Color.rgb(18,86,104));
         expenseRenderer.setFillPoints(true);
         expenseRenderer.setLineWidth(2);
         expenseRenderer.setDisplayChartValues(true);
@@ -134,9 +135,13 @@ public class StepGraphFragment2 extends Fragment {
        // multiRenderer
              //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         //multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Nombre de pas dans le temp");
-        multiRenderer.setXTitle("2017");
+        multiRenderer.setChartTitle("Nombre de pas et distance parcourue quotidienne");
+        multiRenderer.setLabelsColor(Color.BLACK);
+        multiRenderer.setXTitle("Jour");
         multiRenderer.setYTitle("Nombre de pas");
+        multiRenderer.setXLabelsColor(Color.BLACK);
+        multiRenderer.setYLabelsColor(0,Color.BLACK);
+
 
 /***
  * Customizing graphs
@@ -174,6 +179,7 @@ public class StepGraphFragment2 extends Fragment {
         multiRenderer.setInScroll(false);
         // setting to set legend height of the graph
         multiRenderer.setLegendHeight(30);
+        multiRenderer.setLegendTextSize(30);
         // setting x axis label align
         multiRenderer.setXLabelsAlign(Paint.Align.CENTER);
         // setting y axis label to align
@@ -194,7 +200,7 @@ public class StepGraphFragment2 extends Fragment {
         // setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
         // Setting background color of the graph to transparent
-        multiRenderer.setBackgroundColor(Color.rgb(66, 145, 241));
+        multiRenderer.setBackgroundColor(Color.WHITE);
 
         multiRenderer.setApplyBackgroundColor(true);
 
@@ -202,6 +208,7 @@ public class StepGraphFragment2 extends Fragment {
         // right
         multiRenderer.setMargins(new int[]{30, 30, 30, 30});
         multiRenderer.setMarginsColor(Color.rgb(66, 145, 241));
+
 
        /** for (int i = 0; i < x.length; i++) {
             multiRenderer.addXTextLabel(i, mMonth[i]);
