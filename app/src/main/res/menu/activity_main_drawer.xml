@@ -12,5 +12,7 @@
         android:id="@+id/dbSend" />
     <item android:title="Recuperer ses données"
         android:id="@+id/dbReceive" />
-
+    <item android:title="Importer un fichier"
+        android:id="@+id/fileImport" />
+    
 </menu>

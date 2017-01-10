@@ -62,7 +62,7 @@ public class FileData {
 
         String result = new String();
 
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(file));
             for (String line = br.readLine(); line != null; line = br.readLine()) {

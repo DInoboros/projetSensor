@@ -56,7 +56,7 @@ import fr.lenours.dropboxapi.DropboxAuthActivity;
 import fr.lenours.dropboxapi.GetDBFile;
 import fr.lenours.dropboxapi.UploadFile;
 
-public class MainActivity extends AppCompatActivity implements StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements StepGraphFragment4.OnFragmentInteractionListener, StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static String PACKAGE_NAME;
     private static ConnectivityManager cm;
@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
 
         //startService(new Intent(MainActivity.this, StepService.class));
 
+
+        //  osmFrag = new OSMMapFragment();
         stepGraphFragment2 = new StepGraphFragment2();
-      //  osmFrag = new OSMMapFragment();
         stepTrackerFragment = new StepTrackerFragment2();
         Object internet = getSystemService(Context.CONNECTIVITY_SERVICE);
         FileData.createAppFolder();
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
     private void setupViewPager(CustomViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
        // adapter.addFragment(osmFrag, "carte");
-        adapter.addFragment(stepTrackerFragment /*stepTrackerFragment*/, "accueil");
+        adapter.addFragment(stepTrackerFragment, "accueil");
         adapter.addFragment(stepGraphFragment2,"graphe");
         //   adapter.addFragment(stepGraphFrag, "Graph");
         viewPager.setAdapter(adapter);
@@ -234,6 +235,10 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
                 configFile.execute();
             case R.id.dbReceive:
                 new GetDBFile(dropboxApi,FileData.TOTAL_STEP,"steps.csv").execute();
+
+            case R.id.fileImport:
+                startActivity(new Intent(MainActivity.this, FileImportation.class));
+                break;
         }
         return true;
     }
@@ -302,10 +307,11 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
         }
     }
 
-    private void restartApp() {
+    public void restartApp() {
         Extra.openApp(this, "fr.lenours.sensortracker");
         finish();System.exit(0);
     }
+
 
     public void setup() {
 

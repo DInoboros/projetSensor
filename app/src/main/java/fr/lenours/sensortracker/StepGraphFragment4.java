@@ -1,5 +1,6 @@
 package fr.lenours.sensortracker;
 
+
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -24,25 +25,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
 /**
- * Interface Du graphe
+ * Created by potte on 10/01/2017.
  */
-public class StepGraphFragment2 extends Fragment {
 
-    public static String TAG = "StepGraphFragment2";
+public class StepGraphFragment4 extends Fragment {
+    public static String TAG = "StepGraphFragment4";
     private View view;
     private LinearLayout chartLyt;
 
     private OnFragmentInteractionListener mListener;
 
-    public StepGraphFragment2() {
+    public StepGraphFragment4() {
         // Required empty public constructor
     }
 
 
-    public static StepGraphFragment2 newInstance(String param1, String param2) {
-        StepGraphFragment2 fragment = new StepGraphFragment2();
+    public static StepGraphFragment4 newInstance(String param1, String param2) {
+        StepGraphFragment4 fragment = new StepGraphFragment4();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -60,7 +60,7 @@ public class StepGraphFragment2 extends Fragment {
 
         chartLyt = (LinearLayout) view.findViewById(R.id.chart);
 
-       setupGraph();
+        setupGraph();
         chartLyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,15 +75,7 @@ public class StepGraphFragment2 extends Fragment {
         FileData.addConfigElement("isGraphSet",true);
         TimeSeries series = new TimeSeries("Nombre de pas");
 
-        List<String[]> stepsDataSet = null;
-
-        if(FileImportation.selected != null){
-            stepsDataSet = CsvReader.readCSV(FileImportation.selected.getAbsoluteFile(), ",");
-        }
-
-        else{
-            stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
-        }
+        List<String[]> stepsDataSet = CsvReader.readCSV(FileImportation.selected, ",");
 
         SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
         Date d;
@@ -133,8 +125,8 @@ public class StepGraphFragment2 extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof StepGraphFragment4.OnFragmentInteractionListener) {
+            mListener = (StepGraphFragment4.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
