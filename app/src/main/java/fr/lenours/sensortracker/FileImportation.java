@@ -90,6 +90,7 @@ public class FileImportation extends Activity{
                         } else {
                             Toast.makeText(FileImportation.this, selected.toString() + " selected",Toast.LENGTH_LONG).show();
                             dismissDialog(CUSTOM_DIALOG_ID);
+                            FileData.setTotalStep(selected);
                         }
 
 
@@ -98,7 +99,6 @@ public class FileImportation extends Activity{
 
                 break;
         }
-        new StepGraphFragment4();
         return dialog;
     }
 

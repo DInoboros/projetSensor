@@ -1,5 +1,10 @@
 package fr.lenours.sensortracker;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Path;
 import android.os.Environment;
 
 import org.json.JSONException;
@@ -10,19 +15,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static android.support.v4.app.ActivityCompat.startActivity;
+
 /**
  * Classe qui gère les fichieir des l'application
  * Created by Clemsbrowning on 19/05/2016.
  */
 public class FileData {
 
-    public static final String folder = Environment.getExternalStorageDirectory() + "/android/data/" + MainActivity.PACKAGE_NAME + "/";
+    public static final String folder = Environment.getExternalStorageDirectory() + "/Android/data/" + MainActivity.PACKAGE_NAME + "/";
     public static final File STEP_FILE = newFile("step_count.csv");
     public static final File ROUTE_FILE = newFile("route.csv");
     public static final File MARKERS_FILE = newFile("markers");
     public static final File CONFIG_FILE = newFile("config.json");
     public static final File CURRENT_DAY = newFile("current_day.csv");
-    public static final File TOTAL_STEP = newFile("steps.csv");
+    public static  File TOTAL_STEP = newFile("steps.csv");
 
     public static JSONObject configFile = new JSONObject();
 
@@ -103,4 +110,10 @@ public class FileData {
             }
         }
     }
+    public static void setTotalStep(File f) {
+        TOTAL_STEP = f;
+    }
+
+
+
 }

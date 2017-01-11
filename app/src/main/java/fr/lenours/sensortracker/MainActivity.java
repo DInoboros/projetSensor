@@ -110,8 +110,9 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
 
 
         //  osmFrag = new OSMMapFragment();
-        stepGraphFragment2 = new StepGraphFragment2();
         stepTrackerFragment = new StepTrackerFragment2();
+        stepGraphFragment2 = new StepGraphFragment2();
+
         Object internet = getSystemService(Context.CONNECTIVITY_SERVICE);
         FileData.createAppFolder();
 
@@ -227,15 +228,16 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
                 break;
             case R.id.dbSend:
                 UploadFile stepFile = new UploadFile(this,dropboxApi,FileData.TOTAL_STEP);
-                UploadFile curretnStepsFile = new UploadFile(this,dropboxApi,FileData.CURRENT_DAY);
+                UploadFile currentStepsFile = new UploadFile(this,dropboxApi,FileData.CURRENT_DAY);
                 UploadFile configFile = new UploadFile(this,dropboxApi,FileData.CONFIG_FILE);
 
                 stepFile.execute();
-                curretnStepsFile.execute();
+                currentStepsFile.execute();
                 configFile.execute();
+                break;
             case R.id.dbReceive:
                 new GetDBFile(dropboxApi,FileData.TOTAL_STEP,"steps.csv").execute();
-
+                break;
             case R.id.fileImport:
                 startActivity(new Intent(MainActivity.this, FileImportation.class));
                 break;

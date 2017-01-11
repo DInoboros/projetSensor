@@ -51,10 +51,11 @@ public class StepGraphFragment2 extends Fragment {
     }
 
 
-    public static StepGraphFragment2 newInstance(String param1, String param2) {
+    public static StepGraphFragment2 newInstance() {
         StepGraphFragment2 fragment = new StepGraphFragment2();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -277,4 +278,6 @@ public class StepGraphFragment2 extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
