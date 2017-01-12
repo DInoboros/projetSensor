@@ -43,6 +43,7 @@ public class StepGraphFragment2 extends Fragment {
     public static String TAG = "StepGraphFragment2";
     private View view;
     private LinearLayout chartLyt;
+    private int valeurMax = 1000 ;
 
     private OnFragmentInteractionListener mListener;
 
@@ -99,7 +100,7 @@ public class StepGraphFragment2 extends Fragment {
 
                     d = f.parse(dayStep[0]);
                     cal.setTime(d);
-                    System.out.println(cal.get(Calendar.DAY_OF_MONTH) + "ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI");
+                    if (Integer.parseInt(dayStep[1])>valeurMax){valeurMax=Integer.parseInt(dayStep[1]);}
                     incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
                     expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
                 } catch (ParseException e) {
@@ -192,7 +193,7 @@ public class StepGraphFragment2 extends Fragment {
         // setting y axis max value, Since i'm using static values inside the
         // graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(5000);
+        multiRenderer.setYAxisMax(valeurMax+1000);
         multiRenderer.setYAxisMin(0);
         // setting used to move the graph on xaxiz to .5 to the right
         //multiRenderer.setXAxisMin(-0.5);
