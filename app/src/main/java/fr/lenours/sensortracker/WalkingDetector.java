@@ -3,12 +3,9 @@ package fr.lenours.sensortracker;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Handler;
-import android.util.Log;
 
 import com.dobi.walkingsynth.accelerometer.AccelerometerDetector;
 import com.dobi.walkingsynth.accelerometer.OnStepCountChangeListener;
-
-import java.io.File;
 
 /**
  * Classe qui permet de detecter la maniere dont se deplace l'utilisateur (la marche)

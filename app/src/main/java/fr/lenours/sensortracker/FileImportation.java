@@ -12,12 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Classe permettant de choisir un fichier à importer
  * Created by potte on 09/01/2017.
  */
 
@@ -58,6 +58,11 @@ public class FileImportation extends Activity{
         curFolder = root;
     }
 
+    /**
+     * gère la selection d'un fichier
+     * @param id
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(int id) {
 
@@ -112,6 +117,10 @@ public class FileImportation extends Activity{
         }
     }
 
+    /**
+     * Interface faisant la liste des fichier
+     * @param f
+     */
     void ListDir(File f) {
         if(f.equals(root)) {
             buttonUp.setEnabled(false);

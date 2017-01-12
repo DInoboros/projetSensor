@@ -16,11 +16,11 @@ import com.dropbox.client2.session.TokenPair;
 public class DropboxAuthActivity extends Activity{
 
     private final static String DROPBOX_FILE_DIR = "/DropboxDemo/";
-    private final static String DROPBOX_NAME = "dropbox_prefs";
-    private final static String ACCESS_KEY = "zuj8q0szm7xdq6p";
-    private final static String ACCESS_SECRET = "fajd2zi0azmjf1w";
+    private final static String DROPBOX_NAME = "ProjetDUT";
+    private final static String ACCESS_KEY = "pyw9iiowq5glug9";
+    private final static String ACCESS_SECRET = "ak1sklywlbli3sh";
     private final static Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
-    private DropboxAPI dropboxApi;
+    private DropboxAPI<AndroidAuthSession> dropboxApi;
     private boolean isUserLoggedIn;
 
     public DropboxAuthActivity(){}
@@ -46,7 +46,7 @@ public class DropboxAuthActivity extends Activity{
     }
 
     public void onResume(Activity activity) {
-        AndroidAuthSession session = (AndroidAuthSession) dropboxApi.getSession();
+        AndroidAuthSession session = dropboxApi.getSession();
         if (session.authenticationSuccessful()) {
             try {
                 session.finishAuthentication();

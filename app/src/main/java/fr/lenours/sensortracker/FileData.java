@@ -1,10 +1,5 @@
 package fr.lenours.sensortracker;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Path;
 import android.os.Environment;
 
 import org.json.JSONException;
@@ -14,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import static android.support.v4.app.ActivityCompat.startActivity;
 
 /**
  * Classe qui gère les fichieir des l'application
@@ -110,10 +103,13 @@ public class FileData {
             }
         }
     }
+
+    /**
+     * permet de choisir le fichier à assigner a TOTAL_STEP
+     * @param f
+     */
     public static void setTotalStep(File f) {
         TOTAL_STEP = f;
     }
-
-
 
 }

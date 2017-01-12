@@ -1,6 +1,5 @@
 package fr.lenours.sensortracker;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,14 +43,11 @@ import com.google.android.gms.wearable.Wearable;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fr.lenours.dropboxapi.DropboxAuthActivity;
 import fr.lenours.dropboxapi.GetDBFile;
 import fr.lenours.dropboxapi.UploadFile;
 
@@ -75,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
     public static String TAG = "MainActivity";
     public static boolean onDestroyCalled = false;
     private final static String DROPBOX_FILE_DIR = "/DropboxDemo/";
-    private final static String DROPBOX_NAME = "dropbox_prefs";
-    private final static String ACCESS_KEY = "zuj8q0szm7xdq6p";
-    private final static String ACCESS_SECRET = "fajd2zi0azmjf1w";
+    private final static String DROPBOX_NAME = "ProjetDUT";
+    private final static String ACCESS_KEY = "pyw9iiowq5glug9";
+    private final static String ACCESS_SECRET = "ak1sklywlbli3sh";
     private final static Session.AccessType ACCESS_TYPE = Session.AccessType.DROPBOX;
     private DropboxAPI dropboxApi;
     private boolean isUserLoggedIn = false;
@@ -236,7 +231,8 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
                 configFile.execute();
                 break;
             case R.id.dbReceive:
-                new GetDBFile(dropboxApi,FileData.TOTAL_STEP,"steps.csv").execute();
+                GetDBFile getFile = new GetDBFile(dropboxApi, FileData.TOTAL_STEP,"/Application/ProjetDUT/");
+                getFile.execute();
                 break;
             case R.id.fileImport:
                 startActivity(new Intent(MainActivity.this, FileImportation.class));

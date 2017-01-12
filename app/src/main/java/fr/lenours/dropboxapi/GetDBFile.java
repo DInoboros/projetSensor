@@ -4,6 +4,7 @@ package fr.lenours.dropboxapi;
 import android.os.AsyncTask;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 
 import java.io.File;
@@ -12,13 +13,16 @@ import java.io.FileOutputStream;
 
 /**
  * Permet de recuperer des fichiers présent sur Dropbox
+ * Modified on 12/01/2016
+ * @author mvalier
  */
 
 public class GetDBFile extends AsyncTask{
 
-    private DropboxAPI dropboxAPI;
+    private DropboxAPI<AndroidAuthSession> dropboxAPI;
     private String path;
     private File file;
+
 
     /**
      *
@@ -34,23 +38,27 @@ public class GetDBFile extends AsyncTask{
 
     }
 
+
     @Override
-    protected Object doInBackground(Object[] params) {
+    protected Object doInBackground(Object[] objects) {
+
         FileOutputStream fileOutputStream;
+        DropboxAPI.DropboxFileInfo dropboxFile;
         try {
             fileOutputStream = new FileOutputStream(file);
-            DropboxAPI.DropboxFileInfo dropboxFileInfo = dropboxAPI.getFile(file.getName(),null,fileOutputStream,null);
+            dropboxFile = dropboxAPI.getFile(file.getName(),null,fileOutputStream,null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (DropboxException e) {
             e.printStackTrace();
         }
-
-
+        System.out.println(file.getName());
         return null;
     }
 
     public File getFile() {
         return file;
     }
+
+
 }

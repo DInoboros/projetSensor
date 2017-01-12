@@ -13,25 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
 import org.achartengine.chart.LineChart;
-import org.achartengine.chart.PointStyle;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -99,7 +93,7 @@ public class StepGraphFragment2 extends Fragment {
 
                     d = f.parse(dayStep[0]);
                     cal.setTime(d);
-                    System.out.println(cal.get(Calendar.DAY_OF_MONTH) + "ICCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCI");
+                    System.out.println(cal.get(Calendar.DAY_OF_MONTH));
                     incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
                     expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
                 } catch (ParseException e) {
@@ -144,9 +138,9 @@ public class StepGraphFragment2 extends Fragment {
         multiRenderer.setYLabelsColor(0,Color.BLACK);
 
 
-/***
- * Customizing graphs
- */
+        /**
+         * Customizing graphs
+         */
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(28);
         // setting text size of the axis title

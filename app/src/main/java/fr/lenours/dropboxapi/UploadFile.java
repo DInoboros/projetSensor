@@ -1,21 +1,22 @@
 package fr.lenours.dropboxapi;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class UploadFile extends AsyncTask<Void, Void, Boolean>{
 
-    private DropboxAPI dropboxApi;
+    private DropboxAPI<AndroidAuthSession> dropboxApi;
     private File file;
     private Context context;
 
