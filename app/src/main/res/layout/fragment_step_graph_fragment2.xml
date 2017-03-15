@@ -57,7 +57,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/numCourbe"
             android:layout_marginTop="16dp"
-            android:text="modificationier :" />
+            android:text="Modifier :" />
 
         <Spinner
             android:id="@+id/modification"

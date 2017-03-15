@@ -33,6 +33,7 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ public class StepGraphFragment2 extends Fragment {
     private int valeurMax = 1000 ;
     private String[] modifications = {"Couleur", "Donnée"};
     private String[] courbes = {"1","2","3","4","5","6"};
-    private String[] courbesBis = {};
+    private ArrayList courbesBis = new ArrayList<>();
     private Spinner nbCourbes;
     private Spinner numCourbe;
     private Spinner modification;
@@ -81,9 +82,7 @@ public class StepGraphFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        nbCourbes = (Spinner) view.findViewById(R.id.nbCourbe);
-        numCourbe = (Spinner) view.findViewById(R.id.numCourbe);
-        modification = (Spinner) view.findViewById(R.id.modification);
+
 
         view = inflater.inflate(R.layout.fragment_step_graph_fragment2, container, false);
 
@@ -95,16 +94,20 @@ public class StepGraphFragment2 extends Fragment {
                 Log.i(TAG, "X = " + v.getX() + " Y = " + v.getY());
             }
         });
-
+        nbCourbes = (Spinner) view.findViewById(R.id.nbCourbe);
+        numCourbe = (Spinner) view.findViewById(R.id.numCourbe);
+        modification = (Spinner) view.findViewById(R.id.modification);
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
         nbCourbes.setAdapter(adapter);
+        nbCourbes.setSelection(1);
 
+       // Iterator<String> iterator = courbesBis.iterator();
         for(String courbe : courbes) {
-            courbesBis[Integer.parseInt(courbe)-1]=courbe;
+            courbesBis.add(courbe);
         }
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbesBis);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
         numCourbe.setAdapter(adapter);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,modifications);
         modification.setAdapter(adapter);
