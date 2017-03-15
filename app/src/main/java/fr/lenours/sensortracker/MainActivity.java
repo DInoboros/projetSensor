@@ -51,19 +51,20 @@ import java.util.List;
 import fr.lenours.dropboxapi.GetDBFile;
 import fr.lenours.dropboxapi.UploadFile;
 
-public class MainActivity extends AppCompatActivity implements StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements StepGraphFragment.OnFragmentInteractionListener, StepGraphFragment2.OnFragmentInteractionListener, SharedPreferences.OnSharedPreferenceChangeListener, StepTrackerFragment2.OnFragmentInteractionListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static String PACKAGE_NAME;
     private static ConnectivityManager cm;
     private Toolbar toolbar;
     private TabLayout tabLayout;
-   // private OSMMapFragment osmFrag;
+    private OSMMapFragment osmFrag;
     private boolean firstUse = true;
     private EditText setupText;
     private SharedPreferences sp;
     private ListView legend;
     private StepTrackerFragment2 stepTrackerFragment;
     private StepGraphFragment2 stepGraphFragment2;
+    private StepGraphFragment stepGraphFragment;
     private SensorManager sensorManager;
     private FileData fd;
 
@@ -104,8 +105,9 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
         //startService(new Intent(MainActivity.this, StepService.class));
 
 
-        //  osmFrag = new OSMMapFragment();
         stepTrackerFragment = new StepTrackerFragment2();
+        osmFrag = new OSMMapFragment();
+        stepGraphFragment = new StepGraphFragment();
         stepGraphFragment2 = new StepGraphFragment2();
 
         Object internet = getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -154,12 +156,12 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
 
     private void setupViewPager(CustomViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-       // adapter.addFragment(osmFrag, "carte");
-        adapter.addFragment(stepTrackerFragment, "accueil");
-        adapter.addFragment(stepGraphFragment2,"graphe");
-        //   adapter.addFragment(stepGraphFrag, "Graph");
+        //adapter.addFragment(osmFrag, "carte");
+        adapter.addFragment(stepTrackerFragment , "accueil");
+        adapter.addFragment(stepGraphFragment,"une donnée");
+        adapter.addFragment(stepGraphFragment2,"plusieurs données");
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
     }
 
@@ -236,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements StepGraphFragment
                 break;
             case R.id.fileImport:
                 startActivity(new Intent(MainActivity.this, FileImportation.class));
+                break;
+            case R.id.affichageSmartwatch:
                 break;
 
         }

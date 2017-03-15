@@ -14,5 +14,7 @@
         android:id="@+id/dbReceive" />
     <item android:title="Importer un fichier"
         android:id="@+id/fileImport" />
+    <item android:title="Affichage SmartWatch"
+        android:id="@+id/affichageSmartwatch" />
     
 </menu>
