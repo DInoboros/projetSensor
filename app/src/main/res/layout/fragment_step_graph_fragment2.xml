@@ -12,5 +12,60 @@
         android:id="@+id/chart"
         android:orientation="vertical"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="282dp"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <Spinner
+            android:id="@+id/nbCourbe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="137dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/nbCourbe"
+            android:layout_alignParentStart="true"
+            android:text="Nombre de courbes :" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="16dp"
+            android:text="Courbe :" />
+
+        <Spinner
+            android:id="@+id/numCourbe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/nbCourbe"
+            android:layout_alignStart="@+id/nbCourbe"
+            android:layout_alignTop="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/numCourbe"
+            android:layout_marginTop="16dp"
+            android:text="modificationier :" />
+
+        <Spinner
+            android:id="@+id/modification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView4"
+            android:layout_alignStart="@+id/numCourbe" />
+    </RelativeLayout>
+
 
 </FrameLayout>
