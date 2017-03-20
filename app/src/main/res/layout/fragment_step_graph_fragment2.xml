@@ -65,6 +65,32 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textView4"
             android:layout_alignStart="@+id/numCourbe" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/couleur"
+            android:layout_below="@+id/modification"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/numCourbe"
+
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/donnee"
+            android:layout_below="@+id/modification"
+            android:layout_marginTop="10dp"
+            android:layout_alignStart="@+id/numCourbe"
+            android:visibility="invisible"
+
+            />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Appiquer"
+            android:id="@+id/valider"/>
     </RelativeLayout>
 
 

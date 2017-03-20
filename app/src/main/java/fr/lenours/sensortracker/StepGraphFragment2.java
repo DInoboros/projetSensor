@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -50,11 +52,16 @@ public class StepGraphFragment2 extends Fragment {
     private LinearLayout chartLyt;
     private int valeurMax = 1000 ;
     private String[] modifications = {"Couleur", "Donnée"};
+    private String[] couleurs = {"Rouge", "Bleu"};
+    private String[] donnees = {"Pas", "Distance"};
     private String[] courbes = {"1","2","3","4","5","6"};
     private ArrayList courbesBis = new ArrayList<>();
     private Spinner nbCourbes;
     private Spinner numCourbe;
     private Spinner modification;
+    private Spinner couleurSpinner;
+    private Spinner donneeSpinner;
+    private Button valider ;
 
 
     private OnFragmentInteractionListener mListener;
@@ -83,7 +90,7 @@ public class StepGraphFragment2 extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
+        valider =(Button) view.findViewById(R.id.valider);
         view = inflater.inflate(R.layout.fragment_step_graph_fragment2, container, false);
 
         chartLyt = (LinearLayout) view.findViewById(R.id.chart);
@@ -97,6 +104,8 @@ public class StepGraphFragment2 extends Fragment {
         nbCourbes = (Spinner) view.findViewById(R.id.nbCourbe);
         numCourbe = (Spinner) view.findViewById(R.id.numCourbe);
         modification = (Spinner) view.findViewById(R.id.modification);
+        couleurSpinner = (Spinner) view.findViewById(R.id.couleur);
+        donneeSpinner = (Spinner) view.findViewById(R.id.donnee);
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
@@ -109,8 +118,39 @@ public class StepGraphFragment2 extends Fragment {
         }
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
         numCourbe.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,couleurs);
+        couleurSpinner.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,donnees);
+        donneeSpinner.setAdapter(adapter);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,modifications);
         modification.setAdapter(adapter);
+        modification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        valider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int nombreCourbes = Integer.parseInt(nbCourbes.getSelectedItem().toString());
+                int numeroCourbes = Integer.parseInt(numCourbe.getSelectedItem().toString());
+                int choixModification = Integer.parseInt(modification.getSelectedItem().toString());
+
+            }
+        });
 
 
         return view;
