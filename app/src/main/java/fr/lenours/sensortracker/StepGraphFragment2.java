@@ -1,12 +1,14 @@
 package fr.lenours.sensortracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.Spinner;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.Thing;
+import com.jjoe64.graphview.series.Series;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -33,6 +36,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.json.JSONException;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +56,8 @@ public class StepGraphFragment2 extends Fragment {
     private LinearLayout chartLyt;
     private int valeurMax = 1000 ;
     private String[] modifications = {"Couleur", "Donnée"};
-    private String[] couleurs = {"Rouge", "Bleu"};
+    private String[] couleurs = {"RED", "BLUE"};
+    private Integer[] intCouleurs = {Color.RED,Color.BLUE};
     private String[] donnees = {"Pas", "Distance"};
     private String[] courbes = {"1","2","3","4","5","6"};
     private ArrayList courbesBis = new ArrayList<>();
@@ -62,6 +67,11 @@ public class StepGraphFragment2 extends Fragment {
     private Spinner couleurSpinner;
     private Spinner donneeSpinner;
     private Button valider ;
+    private Integer couleurChoisie ;
+    private String donneeChoisie ;
+    private Integer nombreCourbes ;
+    private Integer numeroCourbes ;
+
 
 
     private OnFragmentInteractionListener mListener;
@@ -90,7 +100,7 @@ public class StepGraphFragment2 extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
+        couleurChoisie=Color.RED;
         view = inflater.inflate(R.layout.fragment_step_graph_fragment2, container, false);
         valider =(Button) view.findViewById(R.id.valider);
         chartLyt = (LinearLayout) view.findViewById(R.id.chart);
@@ -118,10 +128,13 @@ public class StepGraphFragment2 extends Fragment {
         }
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
         numCourbe.setAdapter(adapter);
+        numCourbe.setSelection(0);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,couleurs);
         couleurSpinner.setAdapter(adapter);
+        couleurSpinner.setSelection(0);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,donnees);
         donneeSpinner.setAdapter(adapter);
+        donneeSpinner.setSelection(0);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,modifications);
         modification.setAdapter(adapter);
         modification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,10 +142,12 @@ public class StepGraphFragment2 extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-
+                        couleurSpinner.setVisibility(view.VISIBLE);
+                        donneeSpinner.setVisibility(view.INVISIBLE);
                         break;
                     case 1:
-
+                        couleurSpinner.setVisibility(view.INVISIBLE);
+                        donneeSpinner.setVisibility(view.VISIBLE);
                         break;
                 }
 
@@ -145,11 +160,19 @@ public class StepGraphFragment2 extends Fragment {
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int nombreCourbes = Integer.parseInt(nbCourbes.getSelectedItem().toString());
-                int numeroCourbes = Integer.parseInt(numCourbe.getSelectedItem().toString());
-                int choixModification = Integer.parseInt(modification.getSelectedItem().toString());
-
+                nombreCourbes = Integer.parseInt(nbCourbes.getSelectedItem().toString());
+                numeroCourbes = Integer.parseInt(numCourbe.getSelectedItem().toString());
+                String choixModification = modification.getSelectedItem().toString();
+                if (choixModification == "Couleur") {
+                    couleurChoisie = new Integer(intCouleurs[couleurSpinner.getSelectedItemPosition()]);
+                }
+                else if (choixModification == "Donnee"){
+                    donneeChoisie =new String(donneeSpinner.getSelectedItem().toString());
+                }
+                chartLyt.removeAllViews();
+                setupGraph();
             }
+
         });
 
 
@@ -173,6 +196,14 @@ public class StepGraphFragment2 extends Fragment {
     protected void setupGraph() {
 
         // Creating an XYSeries for Income
+        /*Color color ;
+        try {
+            Field field = Class.forName("java.awt.Color").getField(couleurChoisie);
+            color = (Color)field.get(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            color = null;
+        }*/
         TimeSeries incomeSeries = new TimeSeries("Nombre de Pas");
         // Creating an XYSeries for Expense
         TimeSeries expenseSeries = new TimeSeries("Distance (m)");
@@ -205,7 +236,7 @@ public class StepGraphFragment2 extends Fragment {
 
         // Creating XYSeriesRenderer to customize incomeSeries
         XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
-        incomeRenderer.setColor(Color.RED); // color of the graph set to cyan
+        incomeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
         incomeRenderer.setFillPoints(true);
         incomeRenderer.setLineWidth(7);
         incomeRenderer.setChartValuesTextSize(50);
@@ -326,6 +357,8 @@ public class StepGraphFragment2 extends Fragment {
         GraphicalView mChart = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
                 multiRenderer, types);
         // adding the view to the linearlayout
+
+        //chartLyt.postInvalidate();
         chartLyt.addView(mChart);
 
 
