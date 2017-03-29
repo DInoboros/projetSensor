@@ -45,6 +45,8 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import static java.lang.System.out;
+
 
 /**
  * Interface Du graphe
@@ -61,6 +63,7 @@ public class StepGraphFragment2 extends Fragment {
     private String[] donnees = {"Pas", "Distance"};
     private String[] courbes = {"1","2","3","4","5","6"};
     private ArrayList courbesBis = new ArrayList<>();
+    private ArrayList<String> types = new ArrayList<>();
     private Spinner nbCourbes;
     private Spinner numCourbe;
     private Spinner modification;
@@ -71,6 +74,8 @@ public class StepGraphFragment2 extends Fragment {
     private String donneeChoisie ;
     private Integer nombreCourbes ;
     private Integer numeroCourbes ;
+    XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+    XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 
 
 
@@ -99,7 +104,7 @@ public class StepGraphFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        nombreCourbes=2;
         couleurChoisie=Color.RED;
         view = inflater.inflate(R.layout.fragment_step_graph_fragment2, container, false);
         valider =(Button) view.findViewById(R.id.valider);
@@ -167,7 +172,7 @@ public class StepGraphFragment2 extends Fragment {
                     couleurChoisie = new Integer(intCouleurs[couleurSpinner.getSelectedItemPosition()]);
                 }
                 else if (choixModification == "Donnee"){
-                    donneeChoisie =new String(donneeSpinner.getSelectedItem().toString());
+                    donneeChoisie = new String(donneeSpinner.getSelectedItem().toString());
                 }
                 chartLyt.removeAllViews();
                 setupGraph();
@@ -195,6 +200,9 @@ public class StepGraphFragment2 extends Fragment {
 
     protected void setupGraph() {
 
+        multiRenderer = new XYMultipleSeriesRenderer();
+        dataset = new XYMultipleSeriesDataset();
+        types.clear();
         // Creating an XYSeries for Income
         /*Color color ;
         try {
@@ -204,63 +212,18 @@ public class StepGraphFragment2 extends Fragment {
             e.printStackTrace();
             color = null;
         }*/
-        TimeSeries incomeSeries = new TimeSeries("Nombre de Pas");
-        // Creating an XYSeries for Expense
-        TimeSeries expenseSeries = new TimeSeries("Distance (m)");
-        List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        Date d;
-        Calendar cal = Calendar.getInstance();
-
-        if (stepsDataSet != null)
-            for (String[] dayStep : stepsDataSet) {
-                try {
-
-                    d = f.parse(dayStep[0]);
-                    cal.setTime(d);
-                    if (Integer.parseInt(dayStep[1])>valeurMax){valeurMax=Integer.parseInt(dayStep[1]);}
-                    incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
-                    expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        // Adding data to Income and Expense Series
-
-        // Creating a dataset to hold each series
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        // Adding Income Series to the dataset
-        dataset.addSeries(incomeSeries);
-        // Adding Expense Series to dataset
-        dataset.addSeries(expenseSeries);
-
-        // Creating XYSeriesRenderer to customize incomeSeries
-        XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
-        incomeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
-        incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(7);
-        incomeRenderer.setChartValuesTextSize(50);
-        incomeRenderer.setDisplayChartValues(true); // setting chart value
-        // distance
-
-        // Creating XYSeriesRenderer to customize expenseSeries
-        XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
-        expenseRenderer.setColor(Color.rgb(18,86,104));
-        expenseRenderer.setFillPoints(true);
-        expenseRenderer.setLineWidth(2);
-        expenseRenderer.setDisplayChartValues(true);
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
-        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-       // multiRenderer
-             //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
+
+        // multiRenderer
+        //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         //multiRenderer.setXLabels(0);
         multiRenderer.setChartTitle("Nombre de pas et distance parcourue quotidienne");
         multiRenderer.setLabelsColor(Color.BLACK);
         multiRenderer.setXTitle("Jour");
         multiRenderer.setYTitle("Nombre de pas");
         multiRenderer.setXLabelsColor(Color.BLACK);
-        multiRenderer.setYLabelsColor(0,Color.BLACK);
+        multiRenderer.setYLabelsColor(0, Color.BLACK);
 
 
 /***
@@ -311,7 +274,7 @@ public class StepGraphFragment2 extends Fragment {
         // setting y axis max value, Since i'm using static values inside the
         // graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(valeurMax+1000);
+        multiRenderer.setYAxisMax(valeurMax + 1000);
         multiRenderer.setYAxisMin(0);
         // setting used to move the graph on xaxiz to .5 to the right
         //multiRenderer.setXAxisMin(-0.5);
@@ -330,17 +293,59 @@ public class StepGraphFragment2 extends Fragment {
         multiRenderer.setMarginsColor(Color.rgb(66, 145, 241));
 
 
-       /** for (int i = 0; i < x.length; i++) {
-            multiRenderer.addXTextLabel(i, mMonth[i]);
-        }**/
+        for (int i = 0 ;i<nombreCourbes;i++) {
+            TimeSeries courbeSeries = new TimeSeries("Nombre de Pas");
+            List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
+            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+            Date d;
+            Calendar cal = Calendar.getInstance();
 
-        // Adding incomeRenderer and expenseRenderer to multipleRenderer
-        // Note: The order of adding dataseries to dataset and renderers to
-        // multipleRenderer
-        // should be same
+            if (stepsDataSet != null)
+                for (String[] dayStep : stepsDataSet) {
+                    try {
 
-        multiRenderer.addSeriesRenderer(expenseRenderer);
-        multiRenderer.addSeriesRenderer(incomeRenderer);
+                        d = f.parse(dayStep[0]);
+                        cal.setTime(d);
+                        if (Integer.parseInt(dayStep[1]) > valeurMax) {
+                            valeurMax = Integer.parseInt(dayStep[1]);
+                        }
+                        courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            // Adding data to Income and Expense Series
+
+            // Creating a dataset to hold each series
+
+            // Adding Income Series to the dataset
+            dataset.addSeries(courbeSeries);
+
+            // Creating XYSeriesRenderer to customize courbeSeries
+            XYSeriesRenderer courbeRenderer = new XYSeriesRenderer();
+            courbeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
+            courbeRenderer.setFillPoints(true);
+            courbeRenderer.setLineWidth(7);
+            courbeRenderer.setChartValuesTextSize(50);
+            courbeRenderer.setDisplayChartValues(true); // setting chart value
+            // distance
+
+
+            /** for (int i = 0; i < x.length; i++) {
+             multiRenderer.addXTextLabel(i, mMonth[i]);
+             }**/
+
+            // Adding courbeRenderer and expenseRenderer to multipleRenderer
+            // Note: The order of adding dataseries to dataset and renderers to
+            // multipleRenderer
+            // should be same
+
+            multiRenderer.addSeriesRenderer(courbeRenderer);
+            types.add(LineChart.TYPE);
+        }
+
+        String[] typesList = new String[nombreCourbes];
+        typesList = types.toArray(typesList);
         // this part is used to display graph on the xml
         //LinearLayout chartContainer = (LinearLayout) view.findViewById(R.id.viewpager);
         // remove any views before u paint the chart
@@ -350,12 +355,12 @@ public class StepGraphFragment2 extends Fragment {
         // drawing bar chart
         // mChart = ChartFactory.getBarChartView(MainActivity.this, dataset,
         // multiRenderer, Type.DEFAULT);
-        String[] types = new String[]{ BarChart.TYPE,LineChart.TYPE};
 
         // Creating a combined chart with the chart types specified in types
         // array
         GraphicalView mChart = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
-                multiRenderer, types);
+                multiRenderer, typesList);
+
         // adding the view to the linearlayout
 
         //chartLyt.postInvalidate();
