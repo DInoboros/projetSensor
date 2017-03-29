@@ -344,7 +344,7 @@ public class StepTrackerFragment2 extends Fragment implements OnStepCountChangeL
     }
 
 
-    public int stepToCalories(int steps) {
+    public static int stepToCalories(int steps) {
         return steps / 15;
     }
 

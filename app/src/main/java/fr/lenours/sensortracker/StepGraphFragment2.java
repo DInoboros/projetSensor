@@ -1,14 +1,12 @@
 package fr.lenours.sensortracker;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,35 +15,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
-import com.jjoe64.graphview.series.Series;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart;
 import org.achartengine.chart.LineChart;
-import org.achartengine.chart.PointStyle;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.json.JSONException;
 
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Calendar;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
-
-import static java.lang.System.out;
 
 
 /**
@@ -58,9 +43,11 @@ public class StepGraphFragment2 extends Fragment {
     private LinearLayout chartLyt;
     private int valeurMax = 1000 ;
     private String[] modifications = {"Couleur", "Donnée"};
-    private String[] couleurs = {"RED", "BLUE"};
-    private Integer[] intCouleurs = {Color.RED,Color.BLUE};
-    private String[] donnees = {"Pas", "Distance"};
+    private String[] couleurs = {"Rouge", "Bleu","Noir","Vert","Gris","Jaune"};
+    private Integer[] intCouleurs = {Color.RED,Color.BLUE,Color.BLACK,Color.GREEN,Color.GRAY,Color.YELLOW};
+    private Integer[] tabCouleurs = {Color.RED,Color.BLUE,Color.BLACK,Color.GREEN,Color.GRAY,Color.YELLOW};
+    private String[] donnees = {"Pas", "Distance","Calories"};
+    private String[] donneesList = {"Pas","Distance","Calories","Pas","Pas","Pas"};
     private String[] courbes = {"1","2","3","4","5","6"};
     private ArrayList courbesBis = new ArrayList<>();
     private ArrayList<String> types = new ArrayList<>();
@@ -106,6 +93,7 @@ public class StepGraphFragment2 extends Fragment {
 
         nombreCourbes=2;
         couleurChoisie=Color.RED;
+        donneeChoisie="Pas";
         view = inflater.inflate(R.layout.fragment_step_graph_fragment2, container, false);
         valider =(Button) view.findViewById(R.id.valider);
         chartLyt = (LinearLayout) view.findViewById(R.id.chart);
@@ -162,17 +150,37 @@ public class StepGraphFragment2 extends Fragment {
 
             }
         });
+        nbCourbes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                courbesBis.clear();
+                for (int j = 0 ; j < position+1 ; j++){
+                    courbesBis.add(j+1);
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbesBis);
+                numCourbe.setAdapter(adapter);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nombreCourbes = Integer.parseInt(nbCourbes.getSelectedItem().toString());
-                numeroCourbes = Integer.parseInt(numCourbe.getSelectedItem().toString());
+                numeroCourbes =numCourbe.getSelectedItemPosition();
                 String choixModification = modification.getSelectedItem().toString();
+
                 if (choixModification == "Couleur") {
                     couleurChoisie = new Integer(intCouleurs[couleurSpinner.getSelectedItemPosition()]);
+                    tabCouleurs[numeroCourbes] = couleurChoisie;
                 }
-                else if (choixModification == "Donnee"){
-                    donneeChoisie = new String(donneeSpinner.getSelectedItem().toString());
+                else if (choixModification == "Donnée"){
+                    donneeChoisie = donnees[donneeSpinner.getSelectedItemPosition()];
+
+                    donneesList[numeroCourbes]=donneeChoisie;
                 }
                 chartLyt.removeAllViews();
                 setupGraph();
@@ -186,9 +194,6 @@ public class StepGraphFragment2 extends Fragment {
         nbCourbes.setSelection(1);
 
        // Iterator<String> iterator = courbesBis.iterator();
-        for(String courbe : courbes) {
-            courbesBis.add(courbe);
-        }
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,courbes);
         numCourbe.setAdapter(adapter);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,modifications);
@@ -294,7 +299,7 @@ public class StepGraphFragment2 extends Fragment {
 
 
         for (int i = 0 ;i<nombreCourbes;i++) {
-            TimeSeries courbeSeries = new TimeSeries("Nombre de Pas");
+            TimeSeries courbeSeries = new TimeSeries(donneeChoisie.toString());
             List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
             SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
             Date d;
@@ -309,7 +314,16 @@ public class StepGraphFragment2 extends Fragment {
                         if (Integer.parseInt(dayStep[1]) > valeurMax) {
                             valeurMax = Integer.parseInt(dayStep[1]);
                         }
-                        courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                        if (donneesList[i]== donnees[0]){
+                            courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                        }
+                        else if (donneesList[i]==donnees[1]){
+                            courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
+                        }
+                        else if (donneesList[i]==donnees[2]){
+                            courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToCalories(Integer.parseInt(dayStep[1])));
+                        }
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -323,7 +337,7 @@ public class StepGraphFragment2 extends Fragment {
 
             // Creating XYSeriesRenderer to customize courbeSeries
             XYSeriesRenderer courbeRenderer = new XYSeriesRenderer();
-            courbeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
+            courbeRenderer.setColor(tabCouleurs[i]); // color of the graph set to cyan
             courbeRenderer.setFillPoints(true);
             courbeRenderer.setLineWidth(7);
             courbeRenderer.setChartValuesTextSize(50);
