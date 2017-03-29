@@ -71,6 +71,7 @@ public class StepGraphFragment2 extends Fragment {
     private String donneeChoisie ;
     private Integer nombreCourbes ;
     private Integer numeroCourbes ;
+    private XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 
 
 
@@ -204,56 +205,11 @@ public class StepGraphFragment2 extends Fragment {
             e.printStackTrace();
             color = null;
         }*/
-        TimeSeries incomeSeries = new TimeSeries("Nombre de Pas");
-        // Creating an XYSeries for Expense
-        TimeSeries expenseSeries = new TimeSeries("Distance (m)");
-        List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-        Date d;
-        Calendar cal = Calendar.getInstance();
-
-        if (stepsDataSet != null)
-            for (String[] dayStep : stepsDataSet) {
-                try {
-
-                    d = f.parse(dayStep[0]);
-                    cal.setTime(d);
-                    if (Integer.parseInt(dayStep[1])>valeurMax){valeurMax=Integer.parseInt(dayStep[1]);}
-                    incomeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
-                    expenseSeries.add(cal.get(Calendar.DAY_OF_MONTH), StepTrackerFragment2.stepToMeter(Integer.parseInt(dayStep[1])));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        // Adding data to Income and Expense Series
-
-        // Creating a dataset to hold each series
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        // Adding Income Series to the dataset
-        dataset.addSeries(incomeSeries);
-        // Adding Expense Series to dataset
-        dataset.addSeries(expenseSeries);
-
-        // Creating XYSeriesRenderer to customize incomeSeries
-        XYSeriesRenderer incomeRenderer = new XYSeriesRenderer();
-        incomeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
-        incomeRenderer.setFillPoints(true);
-        incomeRenderer.setLineWidth(7);
-        incomeRenderer.setChartValuesTextSize(50);
-        incomeRenderer.setDisplayChartValues(true); // setting chart value
-        // distance
-
-        // Creating XYSeriesRenderer to customize expenseSeries
-        XYSeriesRenderer expenseRenderer = new XYSeriesRenderer();
-        expenseRenderer.setColor(Color.rgb(18,86,104));
-        expenseRenderer.setFillPoints(true);
-        expenseRenderer.setLineWidth(2);
-        expenseRenderer.setDisplayChartValues(true);
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-       // multiRenderer
-             //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
+        // multiRenderer
+        //   .setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         //multiRenderer.setXLabels(0);
         multiRenderer.setChartTitle("Nombre de pas et distance parcourue quotidienne");
         multiRenderer.setLabelsColor(Color.BLACK);
@@ -330,27 +286,69 @@ public class StepGraphFragment2 extends Fragment {
         multiRenderer.setMarginsColor(Color.rgb(66, 145, 241));
 
 
-       /** for (int i = 0; i < x.length; i++) {
-            multiRenderer.addXTextLabel(i, mMonth[i]);
-        }**/
+        /** for (int i = 0; i < x.length; i++) {
+         multiRenderer.addXTextLabel(i, mMonth[i]);
+         }**/
+        
+        for (int i=0;i<nombreCourbes;i++) {
+            TimeSeries courbeSeries = new TimeSeries("Nombre de Pas");
+            List<String[]> stepsDataSet = CsvReader.readCSV(FileData.TOTAL_STEP, ",");
+            SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+            Date d;
+            Calendar cal = Calendar.getInstance();
 
-        // Adding incomeRenderer and expenseRenderer to multipleRenderer
-        // Note: The order of adding dataseries to dataset and renderers to
-        // multipleRenderer
-        // should be same
+            if (stepsDataSet != null)
+                for (String[] dayStep : stepsDataSet) {
+                    try {
 
-        multiRenderer.addSeriesRenderer(expenseRenderer);
-        multiRenderer.addSeriesRenderer(incomeRenderer);
-        // this part is used to display graph on the xml
-        //LinearLayout chartContainer = (LinearLayout) view.findViewById(R.id.viewpager);
-        // remove any views before u paint the chart
-        //if (chartContainer != null) {
-        //    chartContainer.removeAllViews();
-        //}
-        // drawing bar chart
-        // mChart = ChartFactory.getBarChartView(MainActivity.this, dataset,
-        // multiRenderer, Type.DEFAULT);
-        String[] types = new String[]{ BarChart.TYPE,LineChart.TYPE};
+                        d = f.parse(dayStep[0]);
+                        cal.setTime(d);
+                        if (Integer.parseInt(dayStep[1]) > valeurMax) {
+                            valeurMax = Integer.parseInt(dayStep[1]);
+                        }
+                        courbeSeries.add(cal.get(Calendar.DAY_OF_MONTH), Integer.parseInt(dayStep[1]));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            // Adding data to Income and Expense Series
+
+            // Creating a dataset to hold each series
+
+            // Adding Income Series to the dataset
+            dataset.addSeries(courbeSeries);
+            // Adding Expense Series to dataset
+
+            // Creating XYSeriesRenderer to customize courbeSeries
+            XYSeriesRenderer courbeRenderer = new XYSeriesRenderer();
+            courbeRenderer.setColor(couleurChoisie); // color of the graph set to cyan
+            courbeRenderer.setFillPoints(true);
+            courbeRenderer.setLineWidth(7);
+            courbeRenderer.setChartValuesTextSize(50);
+            courbeRenderer.setDisplayChartValues(true); // setting chart value
+
+
+
+            // Adding courbeRenderer and expenseRenderer to multipleRenderer
+            // Note: The order of adding dataseries to dataset and renderers to
+            // multipleRenderer
+            // should be same
+
+            multiRenderer.addSeriesRenderer(courbeRenderer);
+            // this part is used to display graph on the xml
+            //LinearLayout chartContainer = (LinearLayout) view.findViewById(R.id.viewpager);
+            // remove any views before u paint the chart
+            //if (chartContainer != null) {
+            //    chartContainer.removeAllViews();
+            //}
+            // drawing bar chart
+            // mChart = ChartFactory.getBarChartView(MainActivity.this, dataset,
+            // multiRenderer, Type.DEFAULT);
+        }
+
+
+
+        String[] types = new String[]{ LineChart.TYPE,LineChart.TYPE};
 
         // Creating a combined chart with the chart types specified in types
         // array
